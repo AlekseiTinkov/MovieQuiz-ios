@@ -100,7 +100,6 @@ final class MovieQuizViewController: UIViewController {
     }
     
     private func showNextQuestionOrResults() {
-        imageView.layer.borderWidth = 0 // прячем бордюр
         if currentQuestionIndex < questions.count - 1 {
             currentQuestionIndex += 1
             show(quiz: convert(model: questions[currentQuestionIndex]))
@@ -113,8 +112,8 @@ final class MovieQuizViewController: UIViewController {
     
     private func showAnswerResult(isCorrect: Bool) {
         correctAnswers += isCorrect ? 1 : 0
-        imageView.layer.borderWidth = 8
         imageView.layer.borderColor = isCorrect ? UIColor.ypGreen.cgColor : UIColor.ypRed.cgColor
+        imageView.layer.borderWidth = 8
         noButton.isUserInteractionEnabled = false // отключаем обработку нажатия кнопок до завершения демонстрации результата
         yesButton.isUserInteractionEnabled = false
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
