@@ -90,7 +90,8 @@ final class MovieQuizViewController: UIViewController {
     private func show(quiz result: QuizResultsViewModel) {
         // здесь мы показываем результат прохождения квиза
         let alert = UIAlertController(title: result.title, message: result.text, preferredStyle: .alert)
-        let action = UIAlertAction(title: result.buttonText, style: .default) { _ in
+        let action = UIAlertAction(title: result.buttonText, style: .default) { [weak self] _ in
+            guard let self = self else { return }
             self.currentQuestionIndex = 0
             self.correctAnswers = 0
             self.show(quiz: self.convert(model: self.questions[self.currentQuestionIndex]))
@@ -116,7 +117,8 @@ final class MovieQuizViewController: UIViewController {
         imageView.layer.borderWidth = 8
         noButton.isUserInteractionEnabled = false // отключаем обработку нажатия кнопок до завершения демонстрации результата
         yesButton.isUserInteractionEnabled = false
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
+            guard let self = self else { return }
             self.noButton.isUserInteractionEnabled = true // включаем обработку нажатия кнопок
             self.yesButton.isUserInteractionEnabled = true
             self.showNextQuestionOrResults()
