@@ -1,12 +1,12 @@
 import UIKit
 
-final class MovieQuizViewController: UIViewController {
+final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     
     private var currentQuestionIndex: Int = 0
     private var correctAnswers: Int = 0
     
     private let questionsAmount: Int = 10
-    private let questionFactory: QuestionFactory = QuestionFactory()
+    private var questionFactory: QuestionFactoryProtocol?
     private var currentQuestion: QuizQuestion?
     
     @IBOutlet private var imageView: UIImageView!
@@ -19,10 +19,26 @@ final class MovieQuizViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         //show(quiz: convert(model: questions[currentQuestionIndex]))
-        if let firstQuestion = questionFactory.requestNextQuestion() {
-            currentQuestion = firstQuestion
-            let viewModel = convert(model: firstQuestion)
-            show(quiz: viewModel)
+        questionFactory = QuestionFactory(delegate: self)
+        questionFactory?.requestNextQuestion()
+//        if let firstQuestion = questionFactory.requestNextQuestion() {
+//            currentQuestion = firstQuestion
+//            let viewModel = convert(model: firstQuestion)
+//            show(quiz: viewModel)
+//        }
+    }
+    
+    // MARK: - QuestionFactoryDelegate
+
+    func didReceiveNextQuestion(question: QuizQuestion?) {
+        guard let question = question else {
+            return
+        }
+        
+        currentQuestion = question
+        let viewModel = convert(model: question)
+        DispatchQueue.main.async { [weak self] in
+            self?.show(quiz: viewModel)
         }
     }
     
@@ -51,12 +67,13 @@ final class MovieQuizViewController: UIViewController {
             self.currentQuestionIndex = 0
             self.correctAnswers = 0
 //            self.show(quiz: self.convert(model: self.questions[self.currentQuestionIndex]))
-            if let firstQuestion = self.questionFactory.requestNextQuestion() {
-                self.currentQuestion = firstQuestion
-                let viewModel = self.convert(model: firstQuestion)
-                
-                self.show(quiz: viewModel)
-            }
+//            if let firstQuestion = self.questionFactory.requestNextQuestion() {
+//                self.currentQuestion = firstQuestion
+//                let viewModel = self.convert(model: firstQuestion)
+//
+//                self.show(quiz: viewModel)
+//            }
+            self.questionFactory?.requestNextQuestion()
         }
         alert.addAction(action)
         self.present(alert, animated: true, completion: nil)
@@ -66,12 +83,13 @@ final class MovieQuizViewController: UIViewController {
         if currentQuestionIndex < questionsAmount - 1 {
             currentQuestionIndex += 1
 //            show(quiz: convert(model: questions[currentQuestionIndex]))
-            if let nextQuestion = questionFactory.requestNextQuestion() {
-                currentQuestion = nextQuestion
-                let viewModel = convert(model: nextQuestion)
-                
-                show(quiz: viewModel)
-            }
+//            if let nextQuestion = questionFactory.requestNextQuestion() {
+//                currentQuestion = nextQuestion
+//                let viewModel = convert(model: nextQuestion)
+//
+//                show(quiz: viewModel)
+//            }
+            questionFactory?.requestNextQuestion()
         } else {
             show(quiz: QuizResultsViewModel(title: "Раунд окончен",
                                             text: "Ваш результат: \(correctAnswers) из 10",
@@ -83,12 +101,12 @@ final class MovieQuizViewController: UIViewController {
         correctAnswers += isCorrect ? 1 : 0
         imageView.layer.borderColor = isCorrect ? UIColor.ypGreen.cgColor : UIColor.ypRed.cgColor
         imageView.layer.borderWidth = 8
-        noButton.isUserInteractionEnabled = false // отключаем обработку нажатия кнопок до завершения демонстрации результата
-        yesButton.isUserInteractionEnabled = false
+        noButton.isEnabled = false // отключаем обработку нажатия кнопок до завершения демонстрации результата
+        yesButton.isEnabled = false
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
             guard let self = self else { return }
-            self.noButton.isUserInteractionEnabled = true // включаем обработку нажатия кнопок
-            self.yesButton.isUserInteractionEnabled = true
+            self.noButton.isEnabled = true // включаем обработку нажатия кнопок
+            self.yesButton.isEnabled = true
             self.showNextQuestionOrResults()
         }
     }
