@@ -9,6 +9,8 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     private var questionFactory: QuestionFactoryProtocol?
     private var currentQuestion: QuizQuestion?
     
+    private var alertPresenter: AlertPresenter?
+    
     @IBOutlet private var imageView: UIImageView!
     @IBOutlet private var textLabel: UILabel!
     @IBOutlet private var counterLabel: UILabel!
@@ -18,14 +20,9 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //show(quiz: convert(model: questions[currentQuestionIndex]))
         questionFactory = QuestionFactory(delegate: self)
+        alertPresenter = AlertPresenter(delegate: self)
         questionFactory?.requestNextQuestion()
-//        if let firstQuestion = questionFactory.requestNextQuestion() {
-//            currentQuestion = firstQuestion
-//            let viewModel = convert(model: firstQuestion)
-//            show(quiz: viewModel)
-//        }
     }
     
     // MARK: - QuestionFactoryDelegate
@@ -59,41 +56,37 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         counterLabel.text = step.questionNumber
     }
 
-    private func show(quiz result: QuizResultsViewModel) {
-        // здесь мы показываем результат прохождения квиза
-        let alert = UIAlertController(title: result.title, message: result.text, preferredStyle: .alert)
-        let action = UIAlertAction(title: result.buttonText, style: .default) { [weak self] _ in
-            guard let self = self else { return }
-            self.currentQuestionIndex = 0
-            self.correctAnswers = 0
-//            self.show(quiz: self.convert(model: self.questions[self.currentQuestionIndex]))
-//            if let firstQuestion = self.questionFactory.requestNextQuestion() {
-//                self.currentQuestion = firstQuestion
-//                let viewModel = self.convert(model: firstQuestion)
-//
-//                self.show(quiz: viewModel)
-//            }
-            self.questionFactory?.requestNextQuestion()
-        }
-        alert.addAction(action)
-        self.present(alert, animated: true, completion: nil)
+//    private func show(quiz result: QuizResultsViewModel) {
+//        // здесь мы показываем результат прохождения квиза
+//        let alert = UIAlertController(title: result.title, message: result.text, preferredStyle: .alert)
+//        let action = UIAlertAction(title: result.buttonText, style: .default) { [weak self] _ in
+//            guard let self = self else { return }
+//            self.currentQuestionIndex = 0
+//            self.correctAnswers = 0
+//            self.questionFactory?.requestNextQuestion()
+//        }
+//        alert.addAction(action)
+//        self.present(alert, animated: true, completion: nil)
+//    }
+    
+    private func replayGame() {
+        self.currentQuestionIndex = 0
+        self.correctAnswers = 0
+        self.questionFactory?.requestNextQuestion()
     }
     
     private func showNextQuestionOrResults() {
         if currentQuestionIndex < questionsAmount - 1 {
             currentQuestionIndex += 1
-//            show(quiz: convert(model: questions[currentQuestionIndex]))
-//            if let nextQuestion = questionFactory.requestNextQuestion() {
-//                currentQuestion = nextQuestion
-//                let viewModel = convert(model: nextQuestion)
-//
-//                show(quiz: viewModel)
-//            }
             questionFactory?.requestNextQuestion()
         } else {
-            show(quiz: QuizResultsViewModel(title: "Раунд окончен",
-                                            text: "Ваш результат: \(correctAnswers) из 10",
-                                            buttonText: "Сыграть еще раз"))
+            alertPresenter?.showAlert(alert: AlertModel(title: "Раунд окончен",
+                                                        message: "Ваш результат: \(correctAnswers) из 10",
+                                                        buttonText: "Сыграть еще раз",
+                                                        completion: replayGame))
+//            show(quiz: QuizResultsViewModel(title: "Раунд окончен",
+//                                            text: "Ваш результат: \(correctAnswers) из 10",
+//                                            buttonText: "Сыграть еще раз"))
         }
     }
     

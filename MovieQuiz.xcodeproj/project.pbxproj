@@ -13,6 +13,8 @@
 		714F799929BE01C9007B5F93 /* QuizQuestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714F799829BE01C9007B5F93 /* QuizQuestion.swift */; };
 		714F799B29BE3122007B5F93 /* QuestionFactoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714F799A29BE3122007B5F93 /* QuestionFactoryProtocol.swift */; };
 		714F799D29BE75BD007B5F93 /* QuestionFactoryDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714F799C29BE75BD007B5F93 /* QuestionFactoryDelegate.swift */; };
+		714F79A129BFB7E1007B5F93 /* AlertPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714F79A029BFB7E1007B5F93 /* AlertPresenter.swift */; };
+		714F79A329BFB829007B5F93 /* AlertModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714F79A229BFB829007B5F93 /* AlertModel.swift */; };
 		715282ED29A8C7F800D98BB8 /* YS Display-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 715282EA29A8C7CC00D98BB8 /* YS Display-Bold.ttf */; };
 		715282EE29A8C7FB00D98BB8 /* YS Display-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 715282EB29A8C7CC00D98BB8 /* YS Display-Medium.ttf */; };
 		AD1ABAB22831907B00B3E448 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD1ABAB12831907B00B3E448 /* AppDelegate.swift */; };
@@ -33,6 +35,8 @@
 		714F799829BE01C9007B5F93 /* QuizQuestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizQuestion.swift; sourceTree = "<group>"; };
 		714F799A29BE3122007B5F93 /* QuestionFactoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionFactoryProtocol.swift; sourceTree = "<group>"; };
 		714F799C29BE75BD007B5F93 /* QuestionFactoryDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionFactoryDelegate.swift; sourceTree = "<group>"; };
+		714F79A029BFB7E1007B5F93 /* AlertPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertPresenter.swift; sourceTree = "<group>"; };
+		714F79A229BFB829007B5F93 /* AlertModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertModel.swift; sourceTree = "<group>"; };
 		715282EA29A8C7CC00D98BB8 /* YS Display-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "YS Display-Bold.ttf"; sourceTree = "<group>"; };
 		715282EB29A8C7CC00D98BB8 /* YS Display-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "YS Display-Medium.ttf"; sourceTree = "<group>"; };
 		AD1ABAAE2831907B00B3E448 /* MovieQuiz.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MovieQuiz.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -75,6 +79,7 @@
 				714F799429BE019D007B5F93 /* QuizStepViewModel.swift */,
 				714F799629BE01B2007B5F93 /* QuizResultsViewModel.swift */,
 				714F799829BE01C9007B5F93 /* QuizQuestion.swift */,
+				714F79A229BFB829007B5F93 /* AlertModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -93,6 +98,7 @@
 			children = (
 				AD1ABAB52831907B00B3E448 /* MovieQuizViewController.swift */,
 				AD1ABAB72831907B00B3E448 /* Main.storyboard */,
+				714F79A029BFB7E1007B5F93 /* AlertPresenter.swift */,
 			);
 			path = Presentation;
 			sourceTree = "<group>";
@@ -226,9 +232,11 @@
 				AD7AFA552836189F00399704 /* Array+Extensions.swift in Sources */,
 				714F799B29BE3122007B5F93 /* QuestionFactoryProtocol.swift in Sources */,
 				714F799D29BE75BD007B5F93 /* QuestionFactoryDelegate.swift in Sources */,
+				714F79A329BFB829007B5F93 /* AlertModel.swift in Sources */,
 				AD1ABAB62831907B00B3E448 /* MovieQuizViewController.swift in Sources */,
 				714F799529BE019D007B5F93 /* QuizStepViewModel.swift in Sources */,
 				714F799929BE01C9007B5F93 /* QuizQuestion.swift in Sources */,
+				714F79A129BFB7E1007B5F93 /* AlertPresenter.swift in Sources */,
 				714F799229BDFECD007B5F93 /* QuestionFactory.swift in Sources */,
 				AD77F5742857F8810062FB14 /* Date+Extensions.swift in Sources */,
 				AD1ABAB22831907B00B3E448 /* AppDelegate.swift in Sources */,
