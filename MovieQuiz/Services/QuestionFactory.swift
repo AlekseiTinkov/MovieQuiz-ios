@@ -10,6 +10,8 @@ import Foundation
 class QuestionFactory : QuestionFactoryProtocol {
     weak var delegate: QuestionFactoryDelegate?
     
+    private var questionsNumbers: [Int] = []
+    
     private let questions: [QuizQuestion] = [
         QuizQuestion(image: "The Godfather",
                      text: "Рейтинг этого фильма больше чем 6?", //Настоящий рейтинг: 9,2
@@ -48,12 +50,14 @@ class QuestionFactory : QuestionFactoryProtocol {
     }
     
     func requestNextQuestion() {
-        guard let index = (0..<questions.count).randomElement() else {
+        if questionsNumbers.count == 0 { questionsNumbers = Array(0..<questions.count) }
+
+        guard let index = (0..<questionsNumbers.count).randomElement() else {
             delegate?.didReceiveNextQuestion(question: nil)
             return
         }
         
-        let question = questions[safe: index]
+        let question = questions[safe: questionsNumbers.remove(at: index)]
         delegate?.didReceiveNextQuestion(question: question)
     }
 } 

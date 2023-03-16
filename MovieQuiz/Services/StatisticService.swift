@@ -88,6 +88,7 @@ final class StatisticServiceImplementation: StatisticService {
         totalAccuracy += Double(count) / Double(amount)
     }
     
+    // функция сброса (для тестирования)
     func reset() {
         bestGame = GameRecord(correct: 0, total: 0, date: Date())
         gamesCount = 0
