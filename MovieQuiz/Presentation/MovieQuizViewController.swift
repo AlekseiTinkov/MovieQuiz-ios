@@ -1,7 +1,7 @@
 import UIKit
 
-final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
-    
+final class MovieQuizViewController: UIViewController {
+
     private var currentQuestionIndex: Int = 0
     private var correctAnswers: Int = 0
     
@@ -106,4 +106,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         guard let currentQuestion = currentQuestion else { return }
         showAnswerResult(isCorrect: currentQuestion.correctAnswer == false)
     }
+}
+
+extension MovieQuizViewController: QuestionFactoryDelegate {
 }
