@@ -51,7 +51,13 @@ final class QuestionFactory : QuestionFactoryProtocol {
         self.moviesLoader = moviesLoader
         self.delegate = delegate
     }
-
+    
+    private func makeQuestion(_ rating : Float) -> (String, Bool) {
+        print("rating = \(rating)")
+        var questionRating = (7...9).randomElement() ?? 7
+        if Float(questionRating) == rating { questionRating -= 1 }
+        return ("Рейтинг этого фильма больше чем \(questionRating)?", rating > Float(questionRating))
+    }
     
     func requestNextQuestion() {
         DispatchQueue.global().async { [weak self] in
@@ -63,16 +69,19 @@ final class QuestionFactory : QuestionFactoryProtocol {
             
             var imageData = Data()
            
-           do {
+            do {
                 imageData = try Data(contentsOf: movie.resizedImageURL)
             } catch {
-                print("Failed to load image")
+                DispatchQueue.main.async { [weak self] in
+                    guard let self = self else { return }
+                    self.delegate?.didFailToLoadImage(with: error)
+                }
+                return
             }
             
-            let rating = Float(movie.rating) ?? 0
-            
-            let text = "Рейтинг этого фильма больше чем 7?"
-            let correctAnswer = rating > 7
+            let text: String
+            let correctAnswer: Bool
+            (text, correctAnswer) = self.makeQuestion(Float(movie.rating) ?? 0)
             
             let question = QuizQuestion(image: imageData,
                                          text: text,
