@@ -27,30 +27,6 @@ final class MovieQuizViewController: UIViewController {
         showLoadingIndicator()
         questionFactory?.loadData()
     }
-
-    func didReceiveNextQuestion(question: QuizQuestion?) {
-        guard let question else { return }
-        hideLoadingIndicator()
-        currentQuestion = question
-        let viewModel = convert(model: question)
-        DispatchQueue.main.async { [weak self] in
-            self?.show(quiz: viewModel)
-        }
-    }
-    
-    func didFailToLoadData(with error: Error) {
-        guard let questionFactory else { return }
-        showNetworkError(message: error.localizedDescription, completion: questionFactory.loadData)
-    }
-    
-    func didFailToLoadImage(with error: Error) {
-        guard let questionFactory else { return }
-        showNetworkError(message: error.localizedDescription, completion: questionFactory.requestNextQuestion)
-    }
-    
-    func didLoadDataFromServer() {
-        questionFactory?.requestNextQuestion()
-    }
     
     private func convert(model: QuizQuestion) -> QuizStepViewModel {
         return QuizStepViewModel(
@@ -149,4 +125,28 @@ final class MovieQuizViewController: UIViewController {
 }
 
 extension MovieQuizViewController: QuestionFactoryDelegate {
+    
+    func didReceiveNextQuestion(question: QuizQuestion?) {
+        guard let question else { return }
+        hideLoadingIndicator()
+        currentQuestion = question
+        let viewModel = convert(model: question)
+        DispatchQueue.main.async { [weak self] in
+            self?.show(quiz: viewModel)
+        }
+    }
+    
+    func didFailToLoadData(with error: Error) {
+        guard let questionFactory else { return }
+        showNetworkError(message: error.localizedDescription, completion: questionFactory.loadData)
+    }
+    
+    func didFailToLoadImage(with error: Error) {
+        guard let questionFactory else { return }
+        showNetworkError(message: error.localizedDescription, completion: questionFactory.requestNextQuestion)
+    }
+    
+    func didLoadDataFromServer() {
+        questionFactory?.requestNextQuestion()
+    }
 }
