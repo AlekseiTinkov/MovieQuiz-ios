@@ -25,6 +25,9 @@ extension GameRecord: Comparable {
     static func < (lhs: GameRecord, rhs: GameRecord) -> Bool {
         return lhs.correct < rhs.correct
     }
+    static func <= (lhs: GameRecord, rhs: GameRecord) -> Bool {
+        return lhs.correct <= rhs.correct
+    }
 }
 
 final class StatisticServiceImplementation: StatisticService {
@@ -83,7 +86,7 @@ final class StatisticServiceImplementation: StatisticService {
     
     func store(correct count: Int, total amount: Int) {
         let newGame = GameRecord(correct: count, total: amount, date: Date())
-        if bestGame < newGame { bestGame = newGame }
+        if bestGame <= newGame { bestGame = newGame }
         gamesCount += 1
         totalAccuracy += Double(count) / Double(amount)
     }
