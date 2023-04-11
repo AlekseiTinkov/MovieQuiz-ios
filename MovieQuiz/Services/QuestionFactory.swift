@@ -8,7 +8,7 @@
 import Foundation
 
 final class QuestionFactory : QuestionFactoryProtocol {
-    private weak var delegate: QuestionFactoryDelegate?
+    private var delegate: QuestionFactoryDelegate?
     private let moviesLoader: MoviesLoading
     
     /*private let questions: [QuizQuestion] = [
