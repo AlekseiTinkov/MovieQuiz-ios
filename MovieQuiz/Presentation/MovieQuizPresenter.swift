@@ -24,14 +24,13 @@ final class MovieQuizPresenter: QuestionFactoryDelegate {
     private var currentQuestion: QuizQuestion?
     private var correctAnswers: Int = 0
     private weak var viewController: MovieQuizViewControllerProtocol?
-    private var questionFactory: QuestionFactoryProtocol?
-    private var statisticService: StatisticService!
+    private var questionFactory: QuestionFactoryProtocol!
+    private let statisticService: StatisticService
     
     init(viewController: MovieQuizViewControllerProtocol) {
         self.viewController = viewController
         statisticService = StatisticServiceImplementation()
         questionFactory = QuestionFactory(moviesLoader: MoviesLoader(), delegate: self)
-        viewController.showLoadingIndicator()
         loadData()
     }
     

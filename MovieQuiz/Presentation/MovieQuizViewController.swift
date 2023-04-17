@@ -16,6 +16,7 @@ final class MovieQuizViewController: UIViewController, MovieQuizViewControllerPr
         super.viewDidLoad()
         imageView.layer.cornerRadius = 20
         imageView.layer.masksToBounds = true
+        showLoadingIndicator()
         presenter = MovieQuizPresenter(viewController: self)
         alertPresenter = AlertPresenter(delegate: self)
     }
