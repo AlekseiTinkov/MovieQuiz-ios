@@ -9,7 +9,7 @@ import XCTest
 import zlib
 @testable import MovieQuiz
 
-class QuestionFactoryPresenter: QuestionFactoryDelegate {
+final class QuestionFactoryMock: QuestionFactoryDelegate {
     
     private var questionFactory: QuestionFactoryProtocol?
     private var dataLoaded: (_: Bool)->Void = { _ in }
@@ -71,7 +71,7 @@ class QuestionFactoryTest: XCTestCase {
     
     func testQuestionFactory() throws {
         let testQuestionCount = 50 // число запрашиваемых тестом вопросв (до 250)
-        let questionFactoryPresenter = QuestionFactoryPresenter(testQuestionCount: testQuestionCount)
+        let questionFactoryPresenter = QuestionFactoryMock(testQuestionCount: testQuestionCount)
 
         let expectation = expectation(description:  "Loading expectation")
         

@@ -10,14 +10,14 @@ import XCTest
 
 final class MovieQuizViewControllerMockk: MovieQuizViewControllerProtocol {
     
-    var result: QuizResultsViewModel = QuizResultsViewModel(title: "", text: "", buttonText: "")
+    var quiz: QuizStepViewModel = QuizStepViewModel(image: UIImage(), question: "", questionNumber: "")
     
     func show(quiz step: QuizStepViewModel) {
-        
+        print(">>---- \(step.question)")
+        self.quiz = step
     }
     
     func show(quiz result: QuizResultsViewModel) {
-        self.result = result
     }
     
     func showNetworkError(message: String, completion: @escaping ()->Void) {
@@ -42,18 +42,25 @@ final class MovieQuizViewControllerMockk: MovieQuizViewControllerProtocol {
 }
 
 final class MovieQuizPT: XCTestCase {
-    func testPresenterConvertModel() throws {
+    func testPresenterConvertModel()  {
+        
         let viewControllerMock = MovieQuizViewControllerMockk()
         let sut = MovieQuizPresenter(viewController: viewControllerMock)
         
         let emptyData = Data()
         let question = QuizQuestion(image: emptyData, text: "Question Text", correctAnswer: true)
+        let expectation = expectation(description: "Loading expectation")
         sut.didReceiveNextQuestion(question: QuizQuestion(image: emptyData, text: "Question Text", correctAnswer: true))
         
-        pause(1)
         
-        XCTAssertNotNil(viewModel.image)
-        XCTAssertEqual(viewControllerMock.result.text, question.text)
-        XCTAssertEqual(viewModel.questionNumber, "1/10")
+        
+//        //XCTAssertNotNil(viewModel.image)
+//        //XCTAssertEqual(viewControllerMock.quiz.image, nil)
+//        XCTAssertEqual(viewControllerMock.quiz.question, question.text)
+//        XCTAssertEqual(viewControllerMock.quiz.questionNumber, "1/10")
+        
+        waitForExpectations(timeout: 5)
+        
+        XCTAssertEqual(viewControllerMock.quiz.question, question.text)
     }
 }

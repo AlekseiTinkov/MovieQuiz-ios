@@ -75,6 +75,12 @@ class MoviesLoaderTests: XCTestCase {
             case .success(let movies):
                 // давайте проверим, что пришло, например, два фильма — ведь в тестовых данных их всего два
                 XCTAssertEqual(movies.items.count, 2)
+                XCTAssertEqual(movies.items[0].title, "Prey (2022)")
+                XCTAssertEqual(movies.items[0].imageURL, URL(string:  "https://m.media-amazon.com/images/M/MV5BMDBlMDYxMDktOTUxMS00MjcxLWE2YjQtNjNhMjNmN2Y3ZDA1XkEyXkFqcGdeQXVyMTM1MTE1NDMx._V1_Ratio0.6716_AL_.jpg"))
+                XCTAssertEqual(movies.items[0].rating, "7.2")
+                XCTAssertEqual(movies.items[1].title, "The Gray Man (2022)")
+                XCTAssertEqual(movies.items[1].imageURL, URL(string: "https://m.media-amazon.com/images/M/MV5BOWY4MmFiY2QtMzE1YS00NTg1LWIwOTQtYTI4ZGUzNWIxNTVmXkEyXkFqcGdeQXVyODk4OTc3MTY@._V1_Ratio0.6716_AL_.jpg"))
+                XCTAssertEqual(movies.items[1].rating, "6.5")
                 expectation.fulfill()
             case .failure(_):
                 XCTFail("Unexpected failure")
